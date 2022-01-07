@@ -21,25 +21,25 @@ class Product:
     def display(self):
         print("Product :",self.name,"code: ",self.code,"category: ",self.Category,"Price: ",self.price)
 
-a1=Category("cars")
-a2=Category("mobile")
-a3=Category("stationary")
+cars=Category("cars")
+mobile=Category("mobile")
+stationary=Category("stationary")
 try:
-    p1 = [Product("samsung", a2, '140000'),
-          Product("tatagroup", a1, 1200),
-          Product("yundai", a1, 150000),
-          Product("xerox", a3, 120),
-          Product("cellotap", a3, 20),
-          Product("pen", a3, 23),
-          Product("pencil", a3, 10),
-          Product("xiomi", a2, 20000),
-          Product("chair", a3, 1000),
-          Product("redmi", a2, 18000)]
+    p1 = [Product("samsung", mobile, '140000'),
+          Product("tatagroup", cars, 1200),
+          Product("yundai", cars, 150000),
+          Product("xerox", stationary, 120),
+          Product("cellotap", stationary, 20),
+          Product("pen", stationary, 23),
+          Product("pencil", stationary, 10),
+          Product("xiomi", mobile, 20000),
+          Product("chair", stationary, 1000),
+          Product("redmi", mobile, 18000)]
     for x in p1:
         x.display()
-    a1.d()
-    a2.d()
-    a3.d()
+    cars.d()
+    mobile.d()
+    stationary.d()
     print("sorting based on ascending order")
     x = (sorted(p1, key=lambda x: x.price))
     for i in x:
@@ -54,5 +54,4 @@ try:
         i.display()
 except Exception  as e:
     print(e)
-
 

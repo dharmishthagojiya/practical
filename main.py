@@ -13,4 +13,13 @@ def print_hi(name):
 if __name__ == '__main__':
     print_hi('PyCharm')
 
+
+    def recur_sum(n):
+        if n <= 1:
+            return n
+        else:
+            return n + recur_sum(n - 1)
+
+
+    print(recur_sum(998))
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

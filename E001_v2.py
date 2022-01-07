@@ -25,16 +25,19 @@ class Category:
 
     def display_name1(self):
         count = self
+
         while (count.parent != None):
                self.display_name = f'{count.parent.name} > {self.display_name}'
                count=count.parent
+
+
 
 
 class Product:
 
     codeofp = 0
 
-    def __init__(self, name, category, price,):
+    def __init__(self, name, category, price,stock_at_location={}):
         self.name = name
         self.code = Product.codeofp+1
         Product.codeofp += 1
@@ -43,7 +46,7 @@ class Product:
         self.no_of_product = self.code+1
         category.no_of_product += 1
         category.product.append(self)
-        self.stock_at_location={}
+        self.stock_at_location=stock_at_location
     def display(self):
         print("Product :", self.name, "code: ", self.code, "category: ", self.category, "Price: ", self.price)
 
@@ -55,26 +58,26 @@ def main():
     things = Category("things")
     cloths  = Category("cloths")
     # child objects
-    a1 = Category("cars", vehicale)
-    a2 = Category("mobile", device)
-    a3 = Category("stationary", things)
+    cars = Category("cars", vehicale)
+    mobile= Category("mobile", device)
+    stationary = Category("stationary", things)
     # child of child
-    c1 = Category("petrol", a1)
-    c2 = Category("samsung", a2)
-    c3 = Category("book", a3)
-  #  c4 = Category("b",c3)
-    listofc = [vehicale, device, things,cloths, a1, a2, a3, c1, c2, c3]
+    petrol = Category("petrol", cars)
+    samsung = Category("samsung", mobile)
+    book = Category("book", stationary)
 
-    p1 = [Product("iphone", a2, '140000'),
-          Product("tatagroup", a1, 1200),
-          Product("yundai", a1, 150000),
-          Product("xerox", a3, 120),
-          Product("cellotap", a3, 20),
-          Product("pen", a3, 23),
-          Product("maruti", a1, 10),
-          Product("xiomi", a2, 20000),
-          Product("chair", a3, 1000),
-          Product("redmi", a2, 18000),
+    listofc = [vehicale, device, things,cloths, cars, mobile, stationary, petrol, samsung, book]
+
+    productlist = [Product("iphone", mobile, '140000'),
+          Product("tatagroup", cars, 1200),
+          Product("yundai", cars, 150000),
+          Product("xerox", stationary, 120),
+          Product("cellotap", stationary, 20),
+          Product("pen", stationary, 23),
+          Product("maruti", cars, 10),
+          Product("xiomi", mobile, 20000),
+          Product("chair", stationary, 1000),
+          Product("redmi", mobile, 18000),
           Product("saree",cloths, 2000),
           Product("shirt",cloths, 200),
           Product("cap",cloths, 100),
@@ -82,10 +85,11 @@ def main():
           Product("Laptop",device, 55000),
           Product("home furniture",things, 120000)
           ]
+
     print("list of category")
     for x in listofc:
         x.d()
-    for x in p1:
+    for x in productlist:
         x.display()
 
     tree=Tree()
@@ -119,6 +123,7 @@ def main():
             tree.create_node(c.name, c.name, parent=i.name)
 
     tree.show()
+    '''
     print("sorting based on ascending order")
     x = (sorted(p1, key=lambda r: r.price))
     for i in x:
@@ -131,6 +136,7 @@ def main():
     y = [x for x in p1 if x.code == n]
     for i in y:
         i.display()
-if __name__ == "__main__":
+    '''
+if __name__ == '__main__':
     main()
 
