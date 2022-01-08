@@ -1,5 +1,5 @@
 class Category:
-    code=0
+    code=1200
     def __init__(self,name):
         self.name=name
         self.code=Category.code+1

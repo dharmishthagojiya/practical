@@ -41,14 +41,14 @@ class Product:
         self.name = name
         self.code = Product.codeofp+1
         Product.codeofp += 1
-        self.category = category.name
-        self.price = int(price)
-        self.no_of_product = self.code+1
+        self.category = category
+        self.price = float(price)
         category.no_of_product += 1
         category.product.append(self)
         self.stock_at_location=stock_at_location
+
     def display(self):
-        print("Product :", self.name, "code: ", self.code, "category: ", self.category, "Price: ", self.price)
+        print("Product :", self.name, "code: ", self.code, "category: ", self.category.name, "Price: ", self.price)
 
 def main():
 
@@ -74,7 +74,7 @@ def main():
           Product("xerox", stationary, 120),
           Product("cellotap", stationary, 20),
           Product("pen", stationary, 23),
-          Product("maruti", cars, 10),
+          Product("maruti", cars, 100000),
           Product("xiomi", mobile, 20000),
           Product("chair", stationary, 1000),
           Product("redmi", mobile, 18000),
@@ -112,6 +112,10 @@ def main():
 
     tree.show()
     '''
+    pd.set_option('display.max_rows', 500)
+    pd.set_option('display.max_columns', 500)
+    pd.set_option('display.width', 1000)
+
     #manual tree creation
     tree.create_node("Product Category", 0)
 
@@ -123,20 +127,23 @@ def main():
             tree.create_node(c.name, c.name, parent=i.name)
 
     tree.show()
-    '''
+
     print("sorting based on ascending order")
-    x = (sorted(p1, key=lambda r: r.price))
-    for i in x:
-        i.display()
+    x = (sorted(productlist, key=lambda r: r.price))
+    df = pd.DataFrame(t.__dict__ for t in x)
+    df['category']=df['Category.name']
+    print(df)
+
     print("sorting based on desending order")
-    x = (sorted(p1, key=lambda r: r.price, reverse=True))
-    for i in x:
-        i.display()
+    x1 = (sorted(productlist, key=lambda r: r.price, reverse=True))
+    df1 = pd.DataFrame(t.__dict__ for t in x1)
+    print(df1)
+
     n = int(input("search product based on code"))
-    y = [x for x in p1 if x.code == n]
+    y = [x for x in productlist if x.code == n]
     for i in y:
         i.display()
-    '''
+
 if __name__ == '__main__':
     main()
 
