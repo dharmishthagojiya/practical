@@ -89,8 +89,12 @@ def main():
     print("list of category")
     for x in listofc:
         x.d()
+    print("---------------------------------------------")
+    print("list of product")
     for x in productlist:
         x.display()
+    print("---------------------------------------------")
+    print("tree form of category and product ")
 
     tree=Tree()
     #static tree creation
@@ -131,12 +135,13 @@ def main():
     print("sorting based on ascending order")
     x = (sorted(productlist, key=lambda r: r.price))
     df = pd.DataFrame(t.__dict__ for t in x)
-    df['category']=df['Category.name']
+    df['category'] = df['category'].apply(lambda x:x.name )
     print(df)
 
     print("sorting based on desending order")
     x1 = (sorted(productlist, key=lambda r: r.price, reverse=True))
     df1 = pd.DataFrame(t.__dict__ for t in x1)
+    df1['category'] = df1['category'].apply(lambda x: x.name)
     print(df1)
 
     n = int(input("search product based on code"))
