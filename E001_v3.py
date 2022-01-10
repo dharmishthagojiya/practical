@@ -1,5 +1,10 @@
 import E001_v2
+import pandas as pd
 from E001_v2 import Product,Category
+pd.set_option('display.max_rows', 500)
+pd.set_option('display.max_columns', 500)
+pd.set_option('display.width', 1000)
+
 class Location:
     code_l=1200
     def __init__(self,name):
@@ -73,6 +78,10 @@ if __name__ == "__main__":
         for key in i.stock_at_location:  # print dictionary of location name,quantity value
             print(f'{key.name} - {i.stock_at_location[key]}')
         print()
+    #df = pd.DataFrame(t.__dict__ for t in listofprodcut)
+    #df['category'] = df['category'].apply(lambda x: x.name)
+    #df['stock_at_location'] = df['stock_at_location'].apply(lambda x: x.product)
+    #print(df)
 
     movement1 = Movement(jamnagar, ahmedabad, watch, 50)
     movement2 = Movement(rajkot, ahmedabad, mobile, 20)
@@ -95,7 +104,6 @@ if __name__ == "__main__":
         for key in i.stock_at_location:
             print(f'{key.name} - {i.stock_at_location[key]}', end='  ')
         print('\n')
-    print()
     print("product list by location")
     for i in listofl:
         print(i.name)
