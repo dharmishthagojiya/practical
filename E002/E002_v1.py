@@ -1,61 +1,85 @@
 import re
+import pandas as pd
 from datetime import datetime, date
-'''Create a new class named "Customer" with below members. 
-"name","email","phone","street","city","state","country","company","type".
-"type" must be from "company,contact,billing,shipping".
-"company" must be a Customer object which is the parent object.
-Apply Multiple possible validation for phone number and email
-Does not allowed number in name,city,state and country
-'''
+import E001_v2
+from E001_v2 import Product,Category
 class Customer:
-    def __init__(self, name, email, phone, street, city, state, country, company, type):
+    def __init__(self, name, email, phone, street, city, state, country, type,company):
         self.name = self.name1(name)
-        self.email = email
-        emal = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-        if re.search(emal, self.email):
-            print("valid email id", self.email)
-        else:
-            print("not valid email")
-        self.phone = phone
-        num = '(0|91)?[7-9][0-9]{9}'
-        if re.search(num, self.phone):
-            print("valid phone number", self.phone)
-        else:
-            print("not valid")
+        self.email = self.emailvalid(email)
+        self.phone = self.phonevalid(phone)
         self.street = street
         self.city = self.name1(city)
         self.state = self.name1(state)
         self.country = self.name1(country)
         self.company = company
-        self.type = type
+        if type == 'contact' or type == 'billing' or type == 'shipping' or type == 'company':
+            self.type = type
+        else:
+            print("type check")
+    def emailvalid(self,eml):
+        emal = r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+'
+        if re.search(emal, eml):
+            return  eml
+        else:
+            print("not valid email")
+    def phonevalid(self,num1):
+        num = '(0|91)?[7-9][0-9]{9}$'
+        if re.search(num, num1):
+            return num1
+        else:
+            print("not valid mobile number")
 
     def name1(self, name_check):
 
         re1 = '^[A-Za-z]*$'
         if re.search(re1, name_check):
-            print("valid")
-            return True
+            return name_check
         else:
             print("not valid")
             return False
-'''
-Create a new class named "Order" with members "number","date",
- "company", "billing", "shipping", "total_amount","order_lines".
-"company", "billing", "shipping" are objects of Customer.
-"date" must be today or the future. Does not allow past date.
-"total_amount" auto calculated based on different products inside order.
-"order_lines" is list of objects of "OrderLine"
-'''
+    def display(self):
+        print("name: ", self.name)
+        print("Email :" , self.email)
+        print("Phone: ", self.phone)
+        print("address :",self.street,self.city,self.state,self.country)
+
 class order:
-    def __init__(self, number, date , company, billing, shipping):
-        self.number = number
+    number=1600
+    def __init__(self, date , company, billing, shipping):
+        self.number=order.number+1
+        order.number+=1
         self.date = self.check(date)
         self.company = company
-        self.billing = billing
-        self.shipping = shipping
-        self.total_amount = 0
-        self.order_lines = 0
+        if billing.type == 'billing' and shipping.type == 'shipping':
+            self.billing = billing
+            self.shipping = shipping
+        else:
+            print("type check")
+        self.order_lines=[]
+        self.total_amount=0
+    def total(self):
+        for i in self.order_lines:
+            self.total_amount=self.total_amount+i.subtotal
+        print(self.total_amount)
 
+    def display(self):
+       print("number:", self.number)
+       print("DATE:",self.date,"Company:",self.company.name)
+       print("billing-------------------->")
+       self.billing.display()
+       print("shipping-------------------->")
+       self.shipping.display()
+       print("order_lines:")
+       for i in self.order_lines:
+           print(i.order.number)
+       temp = pd.DataFrame(i.__dict__ for i in self.order_lines)
+       temp['order'] = temp['order'].apply(lambda x: x.number)
+       temp['product'] = temp['product'].apply(lambda x: x.name)
+       print(temp)
+       print("total amount:")
+       self.total()
+       print()
     def check(self, date1):
         try:
             date_obj = datetime.strptime(date1, '%Y-%m-%d')
@@ -65,22 +89,53 @@ class order:
                 return date_obj
         except Exception as e:
             print(e)
-'''create a new class named "OrderLine" with members 
-"order", "product", "quantity", "price", "subtotal".
-"order" is the object of Order.
-"subtotal" is auto calculated based on quantity and price.
-'''
+
+
 class Orderline:
-    def __init__(self, order, product, price):
+
+    def __init__(self, order, Product,quantity):
         self.order = order
-        self.product = product
-        self.price = price
-        self.quantity = 0
-        self.subtotal = 0
+        self.product = Product
+        self.price = float(Product.price)
+        self.quantity = int(quantity)
+        self.subtotal = (self.price*self.quantity)
+        self.order.order_lines.append(self)
+    def display(self):
+        print("Product: ", self.product.name)
+        print("Quantity: ", self.quantity)
+        print("Price: ", self.price)
+        print("Total: ", self.subtotal)
 
+if __name__ == "__main__":
+    #customer
+    Into = Customer("Into", '1into2@gmail.com', '919429118530', 'Ayodhyachock', 'Rajkot', 'Gujarat', 'India', 'company',
+                    "")
+    Dhara = Customer("Dhara", '.12@gmail.com', '919426519362', 'Madhavpan', 'Rajkot', 'Gujarat', 'India', 'billing',
+                     Into)
+    yudiz = Customer("yudiz", '.12@gmail.com', '919426519362', 'Madhavpan', 'Rajkot', 'Gujarat', 'India', 'shipping',
+                     Into)
+    Dharti = Customer("Dharti", '.12@gmail.com', '919426519362', 'Madhavpan', 'Rajkot', 'Gujarat', 'India', 'contact',
+                      '')
 
+    cars = Category("cars")
+    mobile = Category("mobile")
+    stationary = Category("stationary")
 
+    iphone = Product("iphone", mobile, '140000')
+    tatgroup = Product("tatagroup", cars, 1200)
+    yundai = Product("yundai", cars, 150000)
+    book = Product("book", stationary, 120)
 
-a = Customer("Dhara", 'abc@gmail.com', '919426519362', 'Madhavpan', 'Rajkot', 'Gujrat', 'India', '1into2', 'a')
-objorder = order(10, '2015-02-01', 'company', 'billing', 'shiping')
-objorderline = Orderline(objorder,10,10000)
+    order1 = order('2022-02-25', Into, Dhara, yudiz)
+    orderline1 = Orderline(order1, iphone, 10)
+
+    order2 = order('2022-05-02', Into, Dhara, yudiz)
+    orderline4 = Orderline(order2, book, 10)
+    orderline2 = Orderline(order2, book, 2)
+
+    order3 = order('2025-09-09', Into, Dhara, yudiz)
+    orderline3 = Orderline(order3, yundai, 2)
+
+    orderlist=[order1,order2,order3]
+    for i in orderlist:
+        i.display()
