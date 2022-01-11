@@ -146,7 +146,8 @@ def main():
     n = int(input("search product based on code"))
     y = [x for x in productlist if x.code == n]
     for i in y:
-        i.display()
+        i.display(
+)
 
 if __name__ == '__main__':
     main()

@@ -34,7 +34,7 @@ class Movement:
                 else:
                     # if not available location it add both location and quantity
                     self.product.stock_at_location.update({self.to_location: self.quantity})
-                # print(self.product.name,"done movement")
+                print(self.product.name,"done movement")
                 self.display = f'product quantity :{self.quantity} from {self.from_location.name} to {self.to_location.name}'
 
             else:
@@ -78,10 +78,6 @@ if __name__ == "__main__":
         for key in i.stock_at_location:  # print dictionary of location name,quantity value
             print(f'{key.name} - {i.stock_at_location[key]}')
         print()
-    #df = pd.DataFrame(t.__dict__ for t in listofprodcut)
-    #df['category'] = df['category'].apply(lambda x: x.name)
-    #df['stock_at_location'] = df['stock_at_location'].apply(lambda x: x.product)
-    #print(df)
 
     movement1 = Movement(jamnagar, ahmedabad, watch, 50)
     movement2 = Movement(rajkot, ahmedabad, mobile, 20)
@@ -90,6 +86,7 @@ if __name__ == "__main__":
     movement5=Movement(jamnagar,rajkot,television,30)
 
     listofm = [movement1, movement2, movement3, movement4,movement5]
+    print()
 
     for i in listofprodcut:
         print(i.name)  # product name
@@ -111,6 +108,9 @@ if __name__ == "__main__":
             if i in p.stock_at_location:
                 print(f'{p.name} - {p.stock_at_location[i]}')
         print()
+
+
+
 
 
 
