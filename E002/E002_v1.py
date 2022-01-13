@@ -167,7 +167,7 @@ if __name__ == "__main__":
     orderline6 = Orderline(order1, samsung, 10, 100)
 
     order2 = order('2022-05-02', Into, Dhara, yudiz)
-    orderline4 = Orderline(order2, book, 10, 20)
+    orderline4 = Orderline(order2, book, 10)
     orderline2 = Orderline(order2, pen, 2, 10)
 
     order3 = order('2025-09-09', Into, Dhara, yudiz)
@@ -197,19 +197,6 @@ if __name__ == "__main__":
     pd2 = pd12[pd12['date'].dt.month == date.today().month]
     print(pd2)
 
-    print("---------")
-    print("search")
-    print("----------------")
-    search = (input("enter you want search number"))
-#   print(pd12.loc[pd12['number'] == n])
-    temp=0
-    for i in order_list:
-        if str(i.number) == str(search):
-            i.display()
-            temp = 1
-    if temp == 0:
-        print("no search number's data is available")
-
     print("----------------------------")
     print("search product based on name")
     print("--------------------------------------------")
@@ -227,26 +214,25 @@ if __name__ == "__main__":
     if count == 0:
         print("no order is present base on product name")
 
-
     def search(lst, target):
-        temp = 0
+        temp1 = 0
         min = 0
         max = len(lst) - 1
         avg = (min + max) // 2
-        while (min < max):
-            if (lst[avg].number == target):
+        while (min <=max):
+            if (str(lst[avg].number) == str(target)):
                 lst[avg].display()
-                temp = 1
+                temp1 = 1
                 break
-            elif (lst[avg].number < target):
-                return avg + 1 + search(lst[avg + 1:], target)
+            elif (float(lst[avg].number) < float(target)) :
+                return search(lst[avg + 1:], target)
             else:
                 return search(lst[:avg], target)
 
-        if temp == 0:
+        if temp1 == 0:
                print("not available order number ")
 
     sorted_list = list(sorted(order_list, key=lambda item: item.number))
-    order_number = int(input("enter order number"))
+    order_number = input("enter order number")
     search(sorted_list, order_number)
 
