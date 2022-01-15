@@ -219,7 +219,7 @@ if __name__ == "__main__":
         min = 0
         max = len(lst) - 1
         avg = (min + max) // 2
-        while (min <=max):
+        while (min <= max):
             if (str(lst[avg].number) == str(target)):
                 lst[avg].display()
                 temp1 = 1
@@ -232,7 +232,8 @@ if __name__ == "__main__":
         if temp1 == 0:
                print("not available order number ")
 
-    sorted_list = list(sorted(order_list, key=lambda item: item.number))
+    sorted_list = list(sorted(order_list, key=lambda i: i.number))
     order_number = input("enter order number")
     search(sorted_list, order_number)
+
 
