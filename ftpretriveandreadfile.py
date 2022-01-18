@@ -36,5 +36,5 @@ file3 = open(filename3, "r")
 print('File Content:', file3.read())
 
 
-
+ftp.retrlines('LIST')
 ftp.quit()
