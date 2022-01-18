@@ -1,0 +1,6 @@
+ahmedabad
+mobile - 20
+laptop - 10
+tablet - 50
+television - 90
+smart watch - 60

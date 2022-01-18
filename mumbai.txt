@@ -1,0 +1,5 @@
+mumbai
+mobile - 10
+tablet - 10
+television - 10
+smart watch - 100

@@ -1,0 +1,5 @@
+RAJKOT
+mobile - 10
+laptop - 10
+television - 10
+smart watch - 2

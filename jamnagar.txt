@@ -1,0 +1,6 @@
+Jamnagar
+mobile - 40
+laptop - 10
+tablet - 30
+television - 20
+smart watch - 50

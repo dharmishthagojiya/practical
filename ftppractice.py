@@ -1,6 +1,4 @@
 import ftplib
-from ftplib import FTP
-import os
 #ftp = ftplib.FTP('ftp.sunet.se', 'anonymous', 'anonymous@sunet.se')
 '''ftp=ftplib.FTP('ftp.us.debian.org')
 ftp.login()
@@ -19,6 +17,7 @@ file = open('E001_v2.py','wb')                  # file to send
 session.storbinary('STOR E001_v2.py', file)     # send the file
 file.close()                                    # close file and FTP
 session.quit()'''
+'''
 def downloadFile():
    filename = 'README.MIRRORS'
    localfile = open(filename, 'wb')
@@ -37,4 +36,5 @@ with FTP("ftp1.at.proftpd.org") as ftp:
    downloadFile()
    uploadFile()
 downloadFile()
+'''''
 
