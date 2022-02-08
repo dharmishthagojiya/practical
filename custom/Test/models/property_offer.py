@@ -11,11 +11,22 @@ class TestModel(models.Model):
     partner_id = fields.Many2one('res.partner', required=True)
     property_id = fields.Many2one('test.model', required=True)
     validity = fields.Integer(string="Validity (days)", default="7")
-    date_deadline = fields.Date(string="Deadline", compute="_compute_date", store=True)
+    date_deadline = fields.Date(string="Deadline", compute="_compute_date", inverse="_inverse_date")
 
     @api.depends("validity")
     def _compute_date(self):
-        self.date_deadline = fields.Date.add(self.create_date, days=self.validity)
+        for rec in self:
+            rec.date_deadline = fields.Datetime.add(rec.create_date, days=rec.validity)
 
     def _inverse_date(self):
-        self.validity = fields.Date.subtract(self.date_deadline, self.create_date)
+        for rec in self:
+            diff = fields.Datetime.sub(rec.date_deadline, rec.create_date)
+            rec.validity = diff.days
+
+    def action_accept(self):
+        self.status = 'accepted'
+        self.property_id.selling_price = self.price
+        self.property_id.buyer_id = self.partner_id
+
+    def action_reject(self):
+        self.status = 'refused'
