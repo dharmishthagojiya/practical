@@ -7,3 +7,6 @@ class TestModel(models.Model):
     _description = "Property Type"
 
     name = fields.Char(string="Property Type", required=True, tracking=True)
+
+    
+    
