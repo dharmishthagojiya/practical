@@ -7,6 +7,4 @@ class TestModel(models.Model):
     _description = "Property Type"
 
     name = fields.Char(string="Name", required=True, tracking=True)
-
-    
-    
+    color = fields.Integer()
