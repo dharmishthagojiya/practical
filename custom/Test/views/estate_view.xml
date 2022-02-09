@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
+   
     <record id="property_tree" model="ir.ui.view">
         <field name="name">estate.property.tree</field>
         <field name="model">test.model</field>
         <field name="arch" type="xml">
-            <tree>
-                <field name="name"/>
+            <tree default_order="id" decoration-success="state == 'offer_received'" decoration-muted ="state == 'sold'" decoration-primary="state == 'offer_accepted'"  decoration-danger="state == 'cancelled'" >
+                <field name="id"/>
+                <field name="name"/> 
                 <field name="postcode"/>
                 <field name="buyer_id"/>
                 <field name="bedrooms"/>
                 <field name="living_area"/>
                 <field name="expected_price"/>
                 <field name="selling_price"/>
-                <field name="date_availability"/> 
-                <field name="tag_ids" widget="many2many_tags"/>   
+                <field name="date_availability" optional="hidden"/> 
+                <field name="property_type_id"/>
+                <field name="state"/>
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
             </tree>
         </field>
     </record>
@@ -23,12 +26,21 @@
         <field name="model">test.model</field>
         <field name="arch" type="xml">
             <form string="Test">
+                 <header>
+                    <button id="button_new" name="action_new" string="New" class="btn-primary" states="cancelled" type="object"/>
+                    <button id="button_received" name="action_received" string="Received" class="btn-primary" states="new" type="object"/>
+                    <button id="button_accepted" name="action_accepted" string="Accept" class="btn-primary" states="offer_received" type="object"/>
+                    <button id="button_sold" name="action_sold" string="Sell" class="btn-primary" states="offer_received,offer_accepted" type="object"/>
+                    <button id="button_cancel" name="action_cancel" string="Cancel" class="btn-primary" states="new,offer_received,offer_accepted" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,offer_received,offer_accepted,sold"/>
+                </header>
                 <sheet>
                    
                     <group>
                         <group>
                             <h1><b><field name="name" placeholder="Title"/></b></h1>
-                            <field name="tag_ids" widget="many2many_tags"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <field name="property_type_id"/>
                             <field name="postcode"/>
                             <field name="buyer_id"/>
                             <field name="date_availability"/>
@@ -48,13 +60,15 @@
                                     <field name="facades"/>
                                     <field name="garage"/>
                                     <field name="garden"/>
-                                    <field name="garden_area"/>
-                                    <field name="garden_orientation"/>
+                                    <field name="garden_area" attrs="{'invisible':[('garden','=',False)]}"/>
+                                    <field name="garden_orientation" attrs="{'invisible':[('garden','=',False)]}"/>
+
                                     <field name="total_area"/>
+                                    
                                 </group>
                             </page>
                              <page string="Offers">
-                                <field name="offer_ids">
+                                    <field name="offer_ids" attrs="{'readonly': [('state', 'in', ('offer_accepted','sold','cancelled'))]}">
                                 </field>
                             </page>
                             <page string="Other Info">
@@ -205,5 +219,3 @@
               
 
 </odoo>
-
-
