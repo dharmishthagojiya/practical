@@ -12,21 +12,33 @@ class TestModel(models.Model):
     property_id = fields.Many2one('test.model', required=True)
     validity = fields.Integer(string="Validity (days)", default="7")
     date_deadline = fields.Date(string="Deadline", compute="_compute_date", inverse="_inverse_date")
+    create_date = fields.Datetime(default=fields.Datetime.now())
 
     @api.depends("validity")
     def _compute_date(self):
         for rec in self:
-            rec.date_deadline = fields.Datetime.add(rec.create_date, days=rec.validity)
-
+            rec.date_deadline = fields.Datetime.add(rec.create_date.date(), days=rec.validity)
     def _inverse_date(self):
+        fmt = '%Y-%m-%d'
         for rec in self:
-            diff = fields.Datetime.sub(rec.date_deadline, rec.create_date)
-            rec.validity = diff.days
+            d1 = fields.datetime.strptime(str(rec.date_deadline), fmt)
+            d2 = fields.datetime.strptime(str(rec.create_date.date()), fmt)
+            diff = (d1-d2).days
+            rec.validity = str(diff)
 
-    def action_accept(self):
+    '''def action_accept(self):
         self.status = 'accepted'
         self.property_id.selling_price = self.price
-        self.property_id.buyer_id = self.partner_id
+        self.property_id.buyer_id = self.partner_id'''
 
     def action_reject(self):
         self.status = 'refused'
+
+    def action_accept(self):
+        #refuse = self.env['test.model'].browse(self.property_id)
+        #refuse.refuse_offer(self.price)
+        self.property_id.selling_price = self.price
+        if self.property_id.selling_price != 0:
+            self.status = 'accepted'
+            self.property_id.buyer_id = self.partner_id
+            self.property_id.state = 'offer_accepted'
