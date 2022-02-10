@@ -22,7 +22,7 @@
         <field name="model">estate.property.offer</field>
         <field name="arch" type="xml">
             <form string="Test">
-
+                 
                 <sheet>
                     <group>
                         <field name="price"/>
@@ -69,6 +69,7 @@
         <field name="arch" type="xml">
             <tree default_order="name">
                 <field name="name"/>
+               
                 <field name="sequence" widget="handle"/>
             </tree>
         </field>
@@ -79,7 +80,14 @@
         <field name="model">estate.property.type</field>
         <field name="arch" type="xml">
             <form string="Test">
+
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(property_offer_action)d" type="action" class="oe_stat_button" icon='fa-money'>
+                            <field name="offer_count" string="Offer" widget="statinfo"/>
+                            </button>
+                    </div>
+
                     <h1><b><field name="name" placeholder="Category"/></b></h1>
                     <hr size="10000px" noshade="1"/>
                 <group>
@@ -88,6 +96,7 @@
                             <field name ="name"/>
                             <field name ="postcode"/>
                             <field name ="expected_price"/>
+                            <field name ="living_area"/>
                         </tree>
                     </field>
                 </group>
@@ -107,6 +116,18 @@
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create your first property type!
+            </p>
+        </field>
+    </record>
+    <record id="property_offer_action" model="ir.actions.act_window">
+        <field name="name">Property offer</field>
+        <field name="res_model">estate.property.offer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('property_type_id', '=', active_id)]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first property offer!
             </p>
         </field>
     </record>
