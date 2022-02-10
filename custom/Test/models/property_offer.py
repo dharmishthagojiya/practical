@@ -13,6 +13,7 @@ class TestModel(models.Model):
     validity = fields.Integer(string="Validity (days)", default="7")
     date_deadline = fields.Date(string="Deadline", compute="_compute_date", inverse="_inverse_date")
     create_date = fields.Datetime(default=fields.Datetime.now())
+    property_type_id = fields.Many2one(related="property_id.property_type_id",store=True)
 
     @api.depends("validity")
     def _compute_date(self):
@@ -30,15 +31,16 @@ class TestModel(models.Model):
         self.status = 'accepted'
         self.property_id.selling_price = self.price
         self.property_id.buyer_id = self.partner_id'''
-
-    def action_reject(self):
-        self.status = 'refused'
-
     def action_accept(self):
-        #refuse = self.env['test.model'].browse(self.property_id)
-        #refuse.refuse_offer(self.price)
+        refuse = self.env['test.model'].browse(self.property_id)
+        refuse.refuse_offer(self.price)
         self.property_id.selling_price = self.price
         if self.property_id.selling_price != 0:
             self.status = 'accepted'
             self.property_id.buyer_id = self.partner_id
             self.property_id.state = 'offer_accepted'
+
+    def action_reject(self):
+        self.status = 'refused'
+
+    
